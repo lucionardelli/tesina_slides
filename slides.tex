@@ -1,0 +1,440 @@
+% Copyright 2004 by Till Tantau <tantau@users.sourceforge.net>.
+%
+% In principle, this file can be redistributed and/or modified under
+% the terms of the GNU Public License, version 2.
+%
+% However, this file is supposed to be a template to be modified
+% for your own needs. For this reason, if you use this file as a
+% template and not specifically distribute it as part of a another
+% package/program, I grant the extra permission to freely copy and
+% modify this file as you see fit and even to delete this copyright
+% notice. 
+  
+\documentclass[spanish,pdf]{beamer}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,latexsym}
+% Doe's not play well with memoir
+\usepackage{subfigure}
+%\usepackage{pifont}
+%\usepackage[linktocpage=true]{hyperref}
+%\usepackage{MnSymbol}
+%\usepackage{algorithm}
+%\usepackage[noend]{algpseudocode}
+\usepackage{wrapfig}
+\usepackage{xspace}
+\usepackage{multirow}
+\usepackage{adjustbox}
+\usepackage[figuresleft]{rotating}
+\usepackage{rotfloat}
+\usepackage[final]{fixme}
+\usepackage{multicol}
+\usepackage{tikz}
+\usetikzlibrary{automata,petri,positioning,shapes,snakes,arrows,backgrounds,babel}
+\tikzstyle{tplace}=[circle,draw,inner sep=1.8mm]
+\usepackage{amsthm}
+% Encabezado "lindo"
+% Memoir y fancyhdr definen ambos esto. Pero lo definen igual, así que no hay problema
+% Fuente: http://tex.stackexchange.com/questions/37868/fancyhdr-and-memoir
+\let\footruleskip\undefined
+\usepackage{fancyhdr}
+% Saca los espacios adicionales de las listas tipo itemize
+%\usepackage{enumitem}
+%\setlist{nolistsep}
+%\usepackage{hypcap}
+% Para armar código bonito
+%\usepackage{minted}
+%\usemintedstyle{bw}
+\usepackage{xcolor}
+\usepackage[framemethod=default]{mdframed}
+\definecolor{bg}{rgb}{0.95,0.95,0.95}
+\mdfdefinestyle{codebox}{backgroundcolor=bg,skipabove=10,linewidth=0}
+\usepackage[most]{tcolorbox}
+
+\usepackage{czt}
+\usepackage{algpseudocode}
+\setbeamerfont{block body}{size=\scriptsize}
+%\usepackage{xcolor}
+%
+%\usepackage[most]{tcolorbox}
+
+%\usetheme{Madrid}
+%\usetheme{Antibes}
+%\usetheme{Copenhagen}
+\usetheme{Warsaw}
+\mode<presentation>{} 
+
+\input{macros}
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>
+    \frametitle{Contenidos}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+  
+%\title{Generación de lenguaje natural a partir de clases de prueba del \textit{test template framework}}
+  
+% A subtitle is optional and this may be deleted
+%\subtitle{Optional Subtitle}
+  
+%\author{F.~Author\inst{1} \and S.~Another\inst{2}}
+% - Give the names in the same order as the appear in the paper.
+% - Use the \inst{?} command only if the authors have different
+%   affiliation.
+  
+%\institute[Universities of Somewhere and Elsewhere] % (optional, but mostly needed)
+%{
+%  \inst{1}%
+%  Department of Computer Science\\
+%  University of Somewhere
+%  \and
+%  \inst{2}%
+%  Department of Theoretical Philosophy\\
+%  University of Elsewhere}
+% - Use the \inst command only if there are several affiliations.
+% - Keep it simple, no one is interested in your street address.
+  
+%\date{Conference Name, 2013}
+% - Either use conference name or its abbreviation.
+% - Not really informative to the audience, more for people (including
+%   yourself) who are reading the slides online
+  
+\subject{Computer Science}
+% This is only inserted into the PDF information catalog. Can be left
+% out. 
+  
+% If you have a file called "university-logo-filename.xxx", where xxx
+% is a graphic format that can be processed by latex or pdflatex,
+% resp., then you can add a logo as follows:
+  
+\pgfdeclareimage[height=0.5cm]{university-logo}{../img/unr.png}
+\logo{\pgfuseimage{university-logo}}
+  
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+%\AtBeginSubsection[]
+%{
+%    \begin{frame}<beamer>{Contenidos}
+%        \tableofcontents[currentsection,currentsubsection]
+%    \end{frame}
+%}
+  
+% Let's get started
+\begin{document}
+  
+\title[Generación y simplificación de especificaciones de procesos]{Generación y simplificación automática de especificaciones de procesos}
+\institute[FCEIA - UNR]{
+  Departamento de Ciencias de la Computación\\
+  Facultad de Ciencias Exactas, Ingeniería y Agrimensura\\
+  Universidad Nacional de Rosario
+}
+\author[Lucio Nardelli]{\begin{tabular}{r@{ }l} 
+  Autor:      & Lucio Nardelli \\[1ex]
+  Director:   & Hernán Ponce de León\\
+  \end{tabular}}
+\date{Junio, 2016}
+  
+\begin{frame}
+  \titlepage
+\end{frame}
+  
+%\begin{frame}{Outline}
+  %\tableofcontents
+  % You might wish to add the option [pausesections]
+%\end{frame}
+  
+\section{Introducción}
+  
+\begin{frame}{Motivación}{}
+    \begin{itemize}
+      \setlength\itemsep{0.4cm}
+      \item<2-> Hoy en día existe un acceso masivo a sistemas informáticos.
+      \item<3-> Esto genera inmensas cantidades de información.
+      \item<4-> Existe una dependencia total de estos sistemas por lo que es
+                esencial mantenerlos eficientes y seguros.
+      \item<5-> ¿Cómo se puede asegurar esto?
+      \item<6-> Para esto utilizaremos métodos de representación formal.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Motivación}{Modelos formales}
+  \vspace*{-0.5cm}
+  \begin{minipage}[c][0.4\textheight][c]{\linewidth}
+    Contar con un modelo claro y simple permite una mejor comprensión del sistema 
+    subyacente y posibilita además, aplicar diferentes métodos de optimización
+    del flujo general del sistema.
+  \end{minipage}
+  \begin{columns}
+    \column{0.25\textwidth}
+  \pause 
+      \begin{minipage}[c][0.3\textheight][c]{\linewidth}
+        \centering
+        \includegraphics[width=1.2\linewidth]{img/ejemplo1.png}
+      \end{minipage}
+    \column{0.45\textwidth}
+  \pause 
+      \begin{minipage}[c][0.3\textheight][c]{\linewidth}
+        \centering
+        \includegraphics[width=1.2\linewidth]{img/ejemplo2.png}
+      \end{minipage}
+    \column{0.3\textwidth}
+  \pause 
+      \begin{minipage}[c][0.05\textheight][c]{\linewidth}
+        \centering
+        \includegraphics[width=0.5\linewidth]{img/ejemplo3.png}
+      \end{minipage}
+  \end{columns}
+  \vspace*{-0.5cm}
+  \pause 
+  \begin{minipage}[c][0.4\textheight][c]{\linewidth}
+    El problema es que estos modelos formales, ¡rara vez existen!
+  \end{minipage}
+\end{frame}
+
+\begin{frame}{Motivación}{Descubrimiento de procesos}
+    \begin{itemize}
+      \setlength\itemsep{0.4cm}
+      \item<2-> Para resolver este inconveniente recurrimos a una de las áreas de la
+                minería de procesos: el \textit{descubrimiento de procesos}.
+      \item<3-> El descubrimiento de procesos consiste en una técnica de aprendizaje automatizado
+                que permite obtener un modelo formal a partir de los registros de las acciones
+                relevantes que ocurren durante la ejecución de un sistema.
+                
+                %los \textit{logs de eventos} de un sistema.
+    \end{itemize}
+%    \pause[4]
+%        Pero...¿qué es un log de eventos de un sistema?
+%    \begin{itemize}
+%      \item<5-> Un log de eventos consiste de un archivo donde se describe un conjunto de trazas de un sistema; 
+%          es decir se lleva registro ordenado de las acciones relevantes que ocurren durante la ejecución de un sistema.
+%    \end{itemize}
+\end{frame}
+
+%\begin{frame}{Motivación}{Mejora de modelos}
+%    \begin{itemize}
+%      \setlength\itemsep{0.4cm}
+%      \item<2-> El problema con las técnicas de descubrimiento es que, en ocasiones, generan modelos
+%                demasiado complejos, conocidos como modelos \textit{spaghetti}.
+%      \end{itemize}
+%      \pause[3]
+%      \begin{columns}
+%        \column{0.5\textwidth}
+%          \centering
+%          \includegraphics[width=0.8\linewidth]{img/ejemplo2.png}
+%        \column{0.45\textwidth}
+%          \pause[4]
+%          \centering
+%          \includegraphics[width=0.5\linewidth]{img/homero_grita.jpg}
+%
+%          ¿Quién podría entender algo de un modelo como ese?
+%      \end{columns}
+%    \begin{itemize}
+%        \item<5-> Para mejorar estos modelos se recurre a técnicas dentro del procesamiento de modelos
+%                  llamadas de \textit{mejora de modelos}
+%    \end{itemize}
+%\end{frame}
+                                           
+\begin{frame}{Motivación}{Mejora de modelos}
+  \begin{itemize}
+    \item<2-> El problema con las técnicas de descubrimiento es que, en ocasiones, generan modelos
+              demasiado complejos, conocidos como modelos \textit{spaghetti}.
+  \end{itemize}
+  \pause[3]
+  \only<3>{
+    \centering
+    \includegraphics[width=0.5\linewidth]{misc_images/lady_and_tramp.jpg}
+
+    Los spaghetti pueden ser una muy buena idea para una cena romántica, 
+    pero no son una buena idea para un modelo formal...
+  }
+  \begin{columns}
+    \column{0.5\textwidth}
+      \pause[4]
+      \centering
+      \includegraphics[width=0.8\linewidth]{img/spaghetti_model_2.jpg}
+    \column{0.45\textwidth}
+      \pause[5]
+      \centering
+      \includegraphics[width=0.5\linewidth]{img/homero_grita.jpg}
+
+      ¿Quién podría entender algo de un modelo como ese?
+  \end{columns}
+  \begin{itemize}
+    \item<6-> Para mejorar estos modelos se recurre a técnicas dentro del procesamiento de modelos
+              llamadas de \textit{mejora de modelos}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Motivación}{Mejora de modelos}
+   \begin{itemize}
+      \setlength\itemsep{0.4cm}
+      \item<2-> Para aplicar las técnicas de mejora de modelos, utilizaremos información adicional a la
+                obtenida de los logs de eventos.
+      \item<3-> La información adicional puede consistir, por ejemplo, en la frecuencia con que ocurre cada traza, el 
+          momento de ejecución, tiempo de duración de cada acción o bien de información
+          acerca de las trazas que \textit{no} deben ocurrir.
+    \end{itemize}
+%    \pause[4]
+%        Pero...¿qué es la información negativa?
+%    \begin{itemize}
+%      \item<5-> La información negativa consiste en un conjunto de trazas que el sistema no debe realizar nunca.
+%    \end{itemize}
+\end{frame}
+
+\begin{frame}{Motivación}{Objetivo general}
+  \centering
+  \includegraphics[width=0.95\linewidth]{img/pmcycle.png}
+\end{frame}
+
+\begin{frame}{Motivación}{Objetivo general}
+  \begin{itemize}
+    \setlength\itemsep{0.4cm}
+
+    \item<1-> Obtener un modelo formal de manera automática a partir de los logs de eventos de un sistema.
+    
+    \item<2-> Optimizar el modelo obtenido mediante técnicas de mejora de modelos para obtener un modelo que
+          resulte simple.
+    
+    \item<3-> Automatizar los puntos anteriores.
+
+    \item<4-> Permitir la generación de mejoras a los procesos de los sistemas informáticos.
+  
+  \end{itemize}
+\end{frame}
+
+\section{Nociones preliminares}
+
+\begin{frame}{Representación formal}{Redes de Petri}
+    \begin{itemize}
+      \setlength\itemsep{0.3cm}
+      \item<2-> Existen diferentes representaciones formales utilizados en la minería de procesos.
+                En particular, usaremos las \textbf{redes de Petri} como modelo de representación.
+      \item<3-> Las redes de Petri fueron introducidas en el año 1962 por el matemático Carl Adam Petri
+                para representar sistemas dinámicos con eventos concurrentes.
+      \item<4-> Conforman un lenguaje gráfico y matemático con una semántica formal.
+      \item<5-> Desde su creación han sido utilizadas, entre otros usos, para representación,
+                análisis, verificación y simulación de sistemas de eventos discretos con 
+                comportamiento dinámico.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Redes de Petri}{Definición formal}
+  \begin{itemize}
+    \item<2-> Formadas por dos componentes:
+      \begin{itemize}
+        \setlength\itemsep{0.2cm}
+          \item<3-> Un grafo bipartito cuyos nodos se separan en los conjuntos disjuntos llamados
+                    \textit{places} y \textit{transiciones} representa la red propiamente dicha.
+          \item<4-> Un conjunto de fichas asignadas a los places de la red, denominado \textit{marking},
+                    el cual es utilizado para simular el comportamiento dinámico y concurrente del sistema.
+      \end{itemize}
+  \end{itemize}
+
+  \pause[5]
+
+%  \begin{tcolorbox}[colback=gray!5!white,colframe=gray!50!black,
+%  colbacktitle=gray!75!black,title=Red de Petri]
+  \begin{block}{Redes de Petri}
+    Formalmente, una red de Petri es una 4-upla $(P,T,F,M_0)$ donde:
+     \begin{itemize}
+        \item<6->{$P$ representa el conjunto finito de places.}
+        \item<7->{$T$ representa el conjunto finito de transiciones.}
+        \item<8->{La función \mbox{$F:(P \times T) \cup (T \times P)  \to \nat$} asigna el peso a los diferentes arcos.}
+        \item<9->{Un marking inicial dado por la función \mbox{$M_0:P \to \nat$}.}
+     \end{itemize}
+  %\end{tcolorbox}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Redes de Petri}{Evolución}
+    \begin{itemize}
+      \setlength\itemsep{0.2cm}
+      \item<2-> El dinamismo de una red viene dado por los markings, los cuales se van ``moviendo''
+                de un place a otro tras la ejecución de las transiciones \emph{habilitadas}.
+      \item<4-> Una transición $t$ se encuentra habilitada, en un marking $M$ si 
+                contiene al menos tantas fichas en cada place que incide en $t$
+                como marcan los arcos que los conectan:
+                \bnnequation
+                  \mbox{$\forall p \in P:~ M(p) \ge F(p,t) $}.
+                \ennequation
+      \item<5-> Ejecutar una transición $t$ sobre un place $p \in P$ en un cierto marking $M$ genera 
+                un nuevo marking $M'$: \firing{M}{t}{M'}. 
+      \item<6-> $M'$ viene definido de manera incremental como
+                \bnnequation
+                  M'(p) = M(p) - F(p,t) +  F(t,p)
+                \ennequation
+      %\item<2-> Dada una red de Petri $N$, se llama $\Language(N)$ al conjunto de secuencias de transiciones ejecutables sobre $N$.
+      %\item<3-> Por su parte, al conjunto de markings alcanzable partiendo desde el marking inicial $M_0$,
+      %          llamado \emph{conjunto alcanzable} de $N$, se lo nota $\rs(N)$.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Redes de Petri}{Ejemplo de la evolución de una red de Petri}
+    \centering
+    \only<1>{\input{petrinets/example_1.tex}}
+    \only<2>{\input{petrinets/example_2.tex}}
+    \only<3>{\input{petrinets/example_3.tex}}
+    \only<4>{\input{petrinets/example_4.tex}}
+    \only<5>{\input{petrinets/example_5.tex}}
+\end{frame}
+
+\begin{frame}{Logs de eventos}{Definición}
+  \begin{itemize}
+    \setlength\itemsep{0.2cm}
+    \item<2-> Un \textit{evento} refiere a la ocurrencia de una actividad de un sistema $\sys$.
+    \item<3-> Una \textit{traza} de eventos se define como una sucesión ordenada de eventos.
+    \item<4-> Un \textit{log de eventos} corresponde a un conjunto de trazas correspondientes 
+              a una instancia única de ejecución de $\sys$ y se conforma de:
+              \begin{itemize}
+                  \item Un conjunto de actividades.
+                  \item Un cierto orden temporal de ocurrencia.
+                  \item Una etiqueta que diferencia las diferentes instancia en trazas
+              \end{itemize}
+    \item<5-> Además, un log puede contener datos adicionales que, aunque no sean fundamentales, pueden
+ayudar a la minería de procesos otorgándole mayor nivel de detalle y claridad.
+  \end{itemize}
+\end{frame}
+
+
+
+
+
+
+%\section{Conclusión y trabajos futuros}
+%\begin{frame}{Conclusión}{}
+%
+%Conclusiones:
+%\begin{itemize}
+%  \item Pudimos desarrollar una solución para la generación automática de descripciones en lenguaje natural para clases de prueba generadas por el TTF.
+%
+%  \item La solución propuesta es independiente del dominio de aplicación y del número de operaciones del sistema.
+%
+%  \item Implementamos exitosamente un prototipo que fue integrado a las funcionalidades de Fastest.
+%\end{itemize}    
+%\end{frame}
+%
+%\begin{frame}{Trabajo futuro}{}
+%Trabajos futuros:
+%\begin{itemize}
+%  \item Evaluación de textos generados por el sistema realizado (en términos de exactitud, fluidez, etc.).
+%
+%  \item Ampliar la totalidad de operadores aceptados por el sistema.
+%
+%  \item Profundizar el trabajo sobre los datos de entrada agregando más tareas de razonamiento con los datos.
+%
+%  \item Expandir el sistema para que sea capaz de producir descripciones en otros idiomas.
+%\end{itemize}                         
+%\end{frame}
+%                                
+\frame{\begin{center}
+\textbf{¿Preguntas?}
+\end{center}}
+
+\frame{\begin{center}
+\textbf{¡Gracias!}
+\end{center}}
+               
+                                                                                      
+\end{document} 
