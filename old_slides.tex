@@ -1,0 +1,125 @@
+% Demasiados detalles de Redes de Petri
+
+%\begin{frame}{Representación formal}{Redes de Petri}
+%    \begin{itemize}
+%      \setlength\itemsep{0.3cm}
+%      \item<2-> Existen diferentes representaciones formales utilizados en la minería de procesos.
+%                En particular, usaremos las \textbf{redes de Petri} como modelo de representación.
+%      \item<3-> Las redes de Petri fueron introducidas en el año 1962 por el matemático Carl Adam Petri
+%                para representar sistemas dinámicos con eventos concurrentes.
+%      \item<4-> Conforman un lenguaje gráfico y matemático con una semántica formal.
+%      \item<5-> Desde su creación han sido utilizadas, entre otros usos, para representación,
+%                análisis, verificación y simulación de sistemas de eventos discretos con 
+%                comportamiento dinámico.
+%    \end{itemize}
+%\end{frame}
+%
+%\begin{frame}{Redes de Petri}{Definición formal}
+%  \begin{itemize}
+%    \item<2-> Formadas por dos componentes:
+%      \begin{itemize}
+%        \setlength\itemsep{0.2cm}
+%          \item<3-> Un grafo bipartito cuyos nodos se separan en los conjuntos disjuntos llamados
+%                    \textit{places} y \textit{transiciones} representa la red propiamente dicha.
+%          \item<4-> Un conjunto de fichas asignadas a los places de la red, denominado \textit{marking},
+%                    el cual es utilizado para simular el comportamiento dinámico y concurrente del sistema.
+%      \end{itemize}
+%  \end{itemize}
+%
+%  \pause[5]
+%
+%%  \begin{tcolorbox}[colback=gray!5!white,colframe=gray!50!black,
+%%  colbacktitle=gray!75!black,title=Red de Petri]
+%  \begin{block}{Redes de Petri}
+%    Formalmente, una red de Petri es una 4-upla $(P,T,F,M_0)$ donde:
+%     \begin{itemize}
+%        \item<6->{$P$ representa el conjunto finito de places.}
+%        \item<7->{$T$ representa el conjunto finito de transiciones.}
+%        \item<8->{La función \mbox{$F:(P \times T) \cup (T \times P)  \to \nat$} asigna el peso a los diferentes arcos.}
+%        \item<9->{Un marking inicial dado por la función \mbox{$M_0:P \to \nat$}.}
+%     \end{itemize}
+%  %\end{tcolorbox}
+%  \end{block}
+%\end{frame}
+%
+%\begin{frame}{Redes de Petri}{Evolución}
+%    \begin{itemize}
+%      \setlength\itemsep{0.2cm}
+%      \item<2-> El dinamismo de una red viene dado por los markings, los cuales se van ``moviendo''
+%                de un place a otro tras la ejecución de las transiciones \emph{habilitadas}.
+%      \item<4-> Una transición $t$ se encuentra habilitada, en un marking $M$ si 
+%                contiene al menos tantas fichas en cada place que incide en $t$
+%                como marcan los arcos que los conectan:
+%                \bnnequation
+%                  \mbox{$\forall p \in P:~ M(p) \ge F(p,t) $}.
+%                \ennequation
+%      \item<5-> Ejecutar una transición $t$ sobre un place $p \in P$ en un cierto marking $M$ genera 
+%                un nuevo marking $M'$: \firing{M}{t}{M'}. 
+%      %\item<2-> Dada una red de Petri $N$, se llama $\Language(N)$ al conjunto de secuencias de transiciones ejecutables sobre $N$.
+%      %\item<3-> Por su parte, al conjunto de markings alcanzable partiendo desde el marking inicial $M_0$,
+%      %          llamado \emph{conjunto alcanzable} de $N$, se lo nota $\rs(N)$.
+%  \end{itemize}
+%\end{frame}
+
+%\begin{frame}{Parikh vector}{Definición}
+%  \begin{itemize}
+%    \setlength\itemsep{0.2cm}
+%    \item<2->
+%Dada una traza $\sigma=\sigma_1\cdot\sigma_2\cdot\ldots\cdot\sigma_k$ sobre un alfabeto
+%$T=\{t_1,t_2,\dots,t_n\}$, se utiliza $|\sigma|_{t_i}$ para representar la
+%cantidad de ocurrencias de $t_i$ en $\sigma$.
+%    \item<3->
+%Luego, el \emph{vector Parikh} de $\sigma$ se define como un vector
+%de longitud $n$ donde la $i$-esima componente toma como valor la cantidad de ocurrencias
+%de la actividad $t_i$.
+%  \end{itemize}
+%
+%   \pause[4]
+%   \begin{example}
+%      Si consideramos las trazas $\sigma_1=t_1 \cdot t_2 \cdot t_1 \cdot t_2 \cdot t_1 \cdot t_1 \cdot t_3$ y $\sigma_2=t_4 \cdot t_4$,
+%      sobre el alfabeto $T=\{t_1,t_2,t_3,t_4\}$ los vectores de Parikh de cada traza vienen dados por las tuplas $(4,1,1,0)$ y $(0,0,0,2)$ respectivamente.
+%   \end{example}
+%\end{frame}
+%
+%\begin{frame}{Parikh vector}{Definición formal}
+%  \begin{block}{Vector Parikh}
+%    Sea $T=\{t_1,\ldots,t_n\}$ un alfabeto de actividades,
+%    el vector Parikh de una secuencia de eventos sobre $T$ se define como
+%    la función
+%
+%    \bequation
+%        \begin{array}{lll}
+%            \widehat{\ }:& T^*&\rightarrow \nat^n\\
+%            \;&\sigma &\mapsto \widehat{\sigma}=(|\sigma|_{t_1},\dots, |\sigma|_{t_n} ).
+%        \end{array}
+%    \eequation
+%  \end{block}
+%  \pause[2]
+%  \begin{block}{Vectores Parikh de un log de eventos}
+%    Dado un log $\pmlog$, el conjunto de
+%    vectores Parikh de $\pmlog$ se define como
+%
+%    \bequation
+%        \parikh{\pmlog}=\{ \widehat\sigma ~|~ \sigma \in \pmlog \}.
+%    \eequation
+%  \end{block}
+%  \begin{columns}
+%    \column{0.3\textwidth}
+%        \pause[4]
+%        \centering
+%        \includegraphics[width=1.2\linewidth]{img/homer-simpson-cooking.jpg}
+%    \column{0.7\textwidth}
+%        \pause[3]
+%        Entonces, teníamos un log de eventos y ahora podemos convertirlas en tuplas de enteros...
+%  \end{columns}
+%\end{frame}
+
+%\begin{frame}{Simplificación}{Simplificando la simplificación}
+%  \begin{itemize}
+%    \setlength\itemsep{0.4cm}
+%    \item Para realizar el proceso de simplificación se utiliza \textit{SMT-Solver}.
+%    \item SMT (\textit{Satisfability modulo theories}) es una teoría que permite
+%        definir un sistema de restricciones y encontrar una solución.
+%  \end{itemize}
+%
+%\end{frame}

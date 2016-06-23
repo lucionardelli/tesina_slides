@@ -11,6 +11,7 @@
 % notice. 
   
 \documentclass[spanish,pdf]{beamer}
+\usepackage{etex}
 \usepackage[spanish,es-tabla]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amssymb,latexsym}
@@ -18,9 +19,9 @@
 \usepackage{subfigure}
 %\usepackage{pifont}
 %\usepackage[linktocpage=true]{hyperref}
-%\usepackage{MnSymbol}
-%\usepackage{algorithm}
+\usepackage{algorithm}
 %\usepackage[noend]{algpseudocode}
+\usepackage{booktabs}
 \usepackage{wrapfig}
 \usepackage{xspace}
 \usepackage{multirow}
@@ -29,6 +30,7 @@
 \usepackage{rotfloat}
 \usepackage[final]{fixme}
 \usepackage{multicol}
+\usepackage{smartdiagram}
 \usepackage{tikz}
 \usetikzlibrary{automata,petri,positioning,shapes,snakes,arrows,backgrounds,babel}
 \tikzstyle{tplace}=[circle,draw,inner sep=1.8mm]
@@ -37,6 +39,7 @@
 % Memoir y fancyhdr definen ambos esto. Pero lo definen igual, así que no hay problema
 % Fuente: http://tex.stackexchange.com/questions/37868/fancyhdr-and-memoir
 \let\footruleskip\undefined
+\usepackage{caption}
 \usepackage{fancyhdr}
 % Saca los espacios adicionales de las listas tipo itemize
 %\usepackage{enumitem}
@@ -65,6 +68,13 @@
 \mode<presentation>{} 
 
 \input{macros}
+
+\addtobeamertemplate{navigation symbols}{}{%
+    \usebeamerfont{footline}%
+    \usebeamercolor[fg]{footline}%
+    \hspace{1em}%
+    \insertframenumber/\inserttotalframenumber
+}
 
 \AtBeginSection[]
 {
@@ -124,7 +134,7 @@
 % Let's get started
 \begin{document}
   
-\title[Generación y simplificación de especificaciones de procesos]{Generación y simplificación automática de especificaciones de procesos}
+\title[Gen. y simp. de especificaciones de procesos de producción]{Generación y simplificación automática de especificaciones de procesos de producción}
 \institute[FCEIA - UNR]{
   Departamento de Ciencias de la Computación\\
   Facultad de Ciencias Exactas, Ingeniería y Agrimensura\\
@@ -152,19 +162,17 @@
       \setlength\itemsep{0.4cm}
       \item<2-> Hoy en día existe un acceso masivo a sistemas informáticos.
       \item<3-> Esto genera inmensas cantidades de información.
-      \item<4-> Existe una dependencia total de estos sistemas por lo que es
-                esencial mantenerlos eficientes y seguros.
+      \item<4-> Dependencia total de estos sistemas, es esencial mantenerlos eficientes y seguros.
       \item<5-> ¿Cómo se puede asegurar esto?
-      \item<6-> Para esto utilizaremos métodos de representación formal.
+      \item<6-> Utilizaremos métodos de representación formal.
     \end{itemize}
 \end{frame}
 
 \begin{frame}{Motivación}{Modelos formales}
   \vspace*{-0.5cm}
   \begin{minipage}[c][0.4\textheight][c]{\linewidth}
-    Contar con un modelo claro y simple permite una mejor comprensión del sistema 
-    subyacente y posibilita además, aplicar diferentes métodos de optimización
-    del flujo general del sistema.
+    Utilizar un modelo gráfico, que sea de fácil de entender
+    pero formal para que se permita un análisis del sistema subyacente.
   \end{minipage}
   \begin{columns}
     \column{0.25\textwidth}
@@ -196,14 +204,19 @@
 \begin{frame}{Motivación}{Descubrimiento de procesos}
     \begin{itemize}
       \setlength\itemsep{0.4cm}
-      \item<2-> Para resolver este inconveniente recurrimos a una de las áreas de la
-                minería de procesos: el \textit{descubrimiento de procesos}.
-      \item<3-> El descubrimiento de procesos consiste en una técnica de aprendizaje automatizado
-                que permite obtener un modelo formal a partir de los registros de las acciones
-                relevantes que ocurren durante la ejecución de un sistema.
+      \item<2-> Para obtener el modelo recurrimos al \textit{descubrimiento de procesos}.
+      \item<3-> Es una técnica de aprendizaje automatizado.
+      \item<4-> Transforma un registro de acciones de un sistema en un modelo formal.
+    \end{itemize}
+    \tikzset{every shadow/.style={fill=none,shadow scale=0}}
+    \smartdiagramset{border color=none,
+      set color list={white!100!white,red!50!black,black!90!white,blue!50!green},
+      back arrow disabled=true}
+    \vspace*{0.5cm}
+    \pause[5]
+    \smartdiagram[flow diagram:horizontal]{Sistema,Info en crudo,ACME - Black Box, Modelo Formal}
                 
                 %los \textit{logs de eventos} de un sistema.
-    \end{itemize}
 %    \pause[4]
 %        Pero...¿qué es un log de eventos de un sistema?
 %    \begin{itemize}
@@ -212,80 +225,48 @@
 %    \end{itemize}
 \end{frame}
 
-%\begin{frame}{Motivación}{Mejora de modelos}
-%    \begin{itemize}
-%      \setlength\itemsep{0.4cm}
-%      \item<2-> El problema con las técnicas de descubrimiento es que, en ocasiones, generan modelos
-%                demasiado complejos, conocidos como modelos \textit{spaghetti}.
-%      \end{itemize}
-%      \pause[3]
-%      \begin{columns}
-%        \column{0.5\textwidth}
-%          \centering
-%          \includegraphics[width=0.8\linewidth]{img/ejemplo2.png}
-%        \column{0.45\textwidth}
-%          \pause[4]
-%          \centering
-%          \includegraphics[width=0.5\linewidth]{img/homero_grita.jpg}
-%
-%          ¿Quién podría entender algo de un modelo como ese?
-%      \end{columns}
-%    \begin{itemize}
-%        \item<5-> Para mejorar estos modelos se recurre a técnicas dentro del procesamiento de modelos
-%                  llamadas de \textit{mejora de modelos}
-%    \end{itemize}
-%\end{frame}
-                                           
+\begin{frame}{Motivación}{Minería de procesos gráficamente}
+  \centering
+  \includegraphics[width=0.95\linewidth]{img/pmcycle.png}
+\end{frame}
+
 \begin{frame}{Motivación}{Mejora de modelos}
   \begin{itemize}
-    \item<2-> El problema con las técnicas de descubrimiento es que, en ocasiones, generan modelos
-              demasiado complejos, conocidos como modelos \textit{spaghetti}.
+    \item<1-> Problema con las técnicas de descubrimiento: modelos \textit{spaghetti}.
   \end{itemize}
-  \pause[3]
-  \only<3>{
+  \pause[2]
+  \only<2>{
     \centering
-    \includegraphics[width=0.5\linewidth]{misc_images/lady_and_tramp.jpg}
+    \includegraphics[width=0.5\linewidth]{img/lady_and_tramp.jpg}
 
     Los spaghetti pueden ser una muy buena idea para una cena romántica, 
     pero no son una buena idea para un modelo formal...
   }
   \begin{columns}
-    \column{0.5\textwidth}
-      \pause[4]
+    \column{0.45\textwidth}
+      \pause[3]
       \centering
       \includegraphics[width=0.8\linewidth]{img/spaghetti_model_2.jpg}
     \column{0.45\textwidth}
-      \pause[5]
+      \pause[4]
       \centering
       \includegraphics[width=0.5\linewidth]{img/homero_grita.jpg}
 
       ¿Quién podría entender algo de un modelo como ese?
   \end{columns}
-  \begin{itemize}
-    \item<6-> Para mejorar estos modelos se recurre a técnicas dentro del procesamiento de modelos
-              llamadas de \textit{mejora de modelos}
-  \end{itemize}
 \end{frame}
 
 \begin{frame}{Motivación}{Mejora de modelos}
    \begin{itemize}
       \setlength\itemsep{0.4cm}
-      \item<2-> Para aplicar las técnicas de mejora de modelos, utilizaremos información adicional a la
-                obtenida de los logs de eventos.
-      \item<3-> La información adicional puede consistir, por ejemplo, en la frecuencia con que ocurre cada traza, el 
-          momento de ejecución, tiempo de duración de cada acción o bien de información
-          acerca de las trazas que \textit{no} deben ocurrir.
+      \item<1-> Para mejorarlos se aplican técnicas de \textit{mejora de modelos}
+      \item<2-> Puede lograrse considerando las trazas más frecuentes o bien información de comportamientos que \textit{no} deben ocurrir.
     \end{itemize}
 %    \pause[4]
 %        Pero...¿qué es la información negativa?
 %    \begin{itemize}
 %      \item<5-> La información negativa consiste en un conjunto de trazas que el sistema no debe realizar nunca.
 %    \end{itemize}
-\end{frame}
-
-\begin{frame}{Motivación}{Objetivo general}
-  \centering
-  \includegraphics[width=0.95\linewidth]{img/pmcycle.png}
 \end{frame}
 
 \begin{frame}{Motivación}{Objetivo general}
@@ -299,141 +280,353 @@
     
     \item<3-> Automatizar los puntos anteriores.
 
-    \item<4-> Permitir la generación de mejoras a los procesos de los sistemas informáticos.
-  
   \end{itemize}
 \end{frame}
 
 \section{Nociones preliminares}
 
-\begin{frame}{Representación formal}{Redes de Petri}
-    \begin{itemize}
-      \setlength\itemsep{0.3cm}
-      \item<2-> Existen diferentes representaciones formales utilizados en la minería de procesos.
-                En particular, usaremos las \textbf{redes de Petri} como modelo de representación.
-      \item<3-> Las redes de Petri fueron introducidas en el año 1962 por el matemático Carl Adam Petri
-                para representar sistemas dinámicos con eventos concurrentes.
-      \item<4-> Conforman un lenguaje gráfico y matemático con una semántica formal.
-      \item<5-> Desde su creación han sido utilizadas, entre otros usos, para representación,
-                análisis, verificación y simulación de sistemas de eventos discretos con 
-                comportamiento dinámico.
-    \end{itemize}
+\begin{frame}{Redes de Petri}{Ejemplo de la evolución de una red de Petri}
+  \begin{columns}
+    \column{0.3\textwidth}
+      \only<1>{\input{petrinets/example_0.tex}}
+      \only<2>{\input{petrinets/example_1.tex}}
+      \only<3>{\input{petrinets/example_2.tex}}
+      \only<4>{\input{petrinets/example_3.tex}}
+      \only<5>{\input{petrinets/example_4.tex}}
+      \only<6>{\input{petrinets/example_5.tex}}
+      \only<7>{\input{petrinets/example_6.tex}}
+      \only<8>{\input{petrinets/example_7.tex}}
+      \only<9>{\input{petrinets/example_8.tex}}
+    \column{0.7\textwidth}
+      \centering
+      \input{petrinets/example_1_eq.tex}
+  \end{columns}
 \end{frame}
 
-\begin{frame}{Redes de Petri}{Definición formal}
-  \begin{itemize}
-    \item<2-> Formadas por dos componentes:
-      \begin{itemize}
-        \setlength\itemsep{0.2cm}
-          \item<3-> Un grafo bipartito cuyos nodos se separan en los conjuntos disjuntos llamados
-                    \textit{places} y \textit{transiciones} representa la red propiamente dicha.
-          \item<4-> Un conjunto de fichas asignadas a los places de la red, denominado \textit{marking},
-                    el cual es utilizado para simular el comportamiento dinámico y concurrente del sistema.
-      \end{itemize}
-  \end{itemize}
-
-  \pause[5]
-
-%  \begin{tcolorbox}[colback=gray!5!white,colframe=gray!50!black,
-%  colbacktitle=gray!75!black,title=Red de Petri]
-  \begin{block}{Redes de Petri}
-    Formalmente, una red de Petri es una 4-upla $(P,T,F,M_0)$ donde:
-     \begin{itemize}
-        \item<6->{$P$ representa el conjunto finito de places.}
-        \item<7->{$T$ representa el conjunto finito de transiciones.}
-        \item<8->{La función \mbox{$F:(P \times T) \cup (T \times P)  \to \nat$} asigna el peso a los diferentes arcos.}
-        \item<9->{Un marking inicial dado por la función \mbox{$M_0:P \to \nat$}.}
-     \end{itemize}
-  %\end{tcolorbox}
-  \end{block}
-\end{frame}
-
-\begin{frame}{Redes de Petri}{Evolución}
+\begin{frame}{Redes de Petri}{Evolución de una red de Petri}
     \begin{itemize}
       \setlength\itemsep{0.2cm}
-      \item<2-> El dinamismo de una red viene dado por los markings, los cuales se van ``moviendo''
-                de un place a otro tras la ejecución de las transiciones \emph{habilitadas}.
-      \item<4-> Una transición $t$ se encuentra habilitada, en un marking $M$ si 
-                contiene al menos tantas fichas en cada place que incide en $t$
-                como marcan los arcos que los conectan:
-                \bnnequation
-                  \mbox{$\forall p \in P:~ M(p) \ge F(p,t) $}.
-                \ennequation
-      \item<5-> Ejecutar una transición $t$ sobre un place $p \in P$ en un cierto marking $M$ genera 
-                un nuevo marking $M'$: \firing{M}{t}{M'}. 
-      \item<6-> $M'$ viene definido de manera incremental como
-                \bnnequation
-                  M'(p) = M(p) - F(p,t) +  F(t,p)
-                \ennequation
-      %\item<2-> Dada una red de Petri $N$, se llama $\Language(N)$ al conjunto de secuencias de transiciones ejecutables sobre $N$.
-      %\item<3-> Por su parte, al conjunto de markings alcanzable partiendo desde el marking inicial $M_0$,
-      %          llamado \emph{conjunto alcanzable} de $N$, se lo nota $\rs(N)$.
+      \item<2-> Los markings pueden definirse de manera incremental como
+        \bnnequation
+            M'(p) = M(p) - F(p,t) +  F(t,p).
+        \ennequation
+      \item<3-> Más general, ante una sucesión de eventos:
+        \bnnequation
+          M(p) = M_0(p) + \sum_{x_i}F(x_i,p)\cdot \widehat\sigma(x_i) - \sum_{y_i}F(p,y_i)\cdot\widehat\sigma(y_i).
+        \ennequation
+      \item<4-> Utilizando notación matricial, puede definirse para todos los places de una red:
+        \bnnequation
+          M = M_0 + A \cdot \widehat\sigma.
+        \ennequation
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Redes de Petri}{Ejemplo de la evolución de una red de Petri}
-    \centering
-    \only<1>{\input{petrinets/example_1.tex}}
-    \only<2>{\input{petrinets/example_2.tex}}
-    \only<3>{\input{petrinets/example_3.tex}}
-    \only<4>{\input{petrinets/example_4.tex}}
-    \only<5>{\input{petrinets/example_5.tex}}
-\end{frame}
-
-\begin{frame}{Logs de eventos}{Definición}
+\begin{frame}{Enfoque del trabajo}{}
+  \centering
+  \includegraphics[width=1.0\linewidth]{img/approach_simplificado.png}
+  \pause
   \begin{itemize}
     \setlength\itemsep{0.2cm}
-    \item<2-> Un \textit{evento} refiere a la ocurrencia de una actividad de un sistema $\sys$.
-    \item<3-> Una \textit{traza} de eventos se define como una sucesión ordenada de eventos.
-    \item<4-> Un \textit{log de eventos} corresponde a un conjunto de trazas correspondientes 
-              a una instancia única de ejecución de $\sys$ y se conforma de:
-              \begin{itemize}
-                  \item Un conjunto de actividades.
-                  \item Un cierto orden temporal de ocurrencia.
-                  \item Una etiqueta que diferencia las diferentes instancia en trazas
-              \end{itemize}
-    \item<5-> Además, un log puede contener datos adicionales que, aunque no sean fundamentales, pueden
-ayudar a la minería de procesos otorgándole mayor nivel de detalle y claridad.
+    \item El registro de ejecuciones es generado por el sistema en los \textit{logs de eventos}.
+    \item La representación como puntos en el espacio corresponde al \textit{conjunto de vectores Parikh} del log.
+    %\item El modelo matemático corresponde a un poliedro convexo que contenga el conjunto de vectores Parikh.
   \end{itemize}
 \end{frame}
 
+\begin{frame}{De logs y vectores Parikh}{Conceptos}
+  \scriptsize
+  \begin{itemize}
+    \setlength\itemsep{0.1cm}
+    \item<1-> Un \textit{log de eventos} es un conjunto de trazas o sucesión ordenada de actividades relevantes de un sistema.
 
+    \item<2-> Dada una traza $\sigma=\sigma_1\cdot\sigma_2\cdot\ldots\cdot\sigma_k$ sobre un alfabeto
+        $T=\{t_1,t_2,\dots,t_n\}$, el \textit{vector Parikh} corresponde a la cantidad de ocurrencias
+        de cada acción $t_i$ en $\sigma$.
+  \end{itemize}
 
+  \pause[3]
+   \begin{example}
+       Para las trazas $\sigma_1=t_1 \cdot t_2 \cdot t_1 \cdot t_2 \cdot t_1 \cdot t_1 \cdot t_3$ y $\sigma_2=t_4 \cdot t_4$,
+       sobre el alfabeto $T=\{t_1,t_2,t_3,t_4\}$ los vectores de Parikh de cada traza vienen dados por las tuplas $(4,1,1,0)$ y $(0,0,0,2)$ respectivamente.
+   \end{example}
 
+  \begin{columns}
+    \column{0.3\textwidth}
+        \pause[5]
+        \centering
+        \includegraphics[width=1.2\linewidth]{img/homer-simpson-cooking.jpg}
+    \column{0.7\textwidth}
+        \pause[4]
+        Entonces, teníamos un log de eventos y ahora podemos convertirlo en tuplas de enteros...
+  \end{columns}
+\end{frame}
 
+\begin{frame}{Enfoque del trabajo}{}
+  \centering
+  \includegraphics[width=1.0\linewidth]{img/approach_simplificado.png}
+  \begin{itemize}
+    \setlength\itemsep{0.2cm}
+    \item<1-> El registro de ejecuciones es generado por el sistema en los \textit{logs de eventos}.
+    \item<1-> La representación como puntos en el espacio corresponde al conjunto de vectores Parikh del log.
+    \item<2-> El modelo matemático corresponde a un poliedro convexo que contenga el conjunto de vectores Parikh.
+  \end{itemize}
+\end{frame}
+\begin{frame}{Dominios numéricos abstractos}{Poliedros convexos}
+  \begin{columns}
 
-%\section{Conclusión y trabajos futuros}
-%\begin{frame}{Conclusión}{}
-%
-%Conclusiones:
-%\begin{itemize}
-%  \item Pudimos desarrollar una solución para la generación automática de descripciones en lenguaje natural para clases de prueba generadas por el TTF.
-%
-%  \item La solución propuesta es independiente del dominio de aplicación y del número de operaciones del sistema.
-%
-%  \item Implementamos exitosamente un prototipo que fue integrado a las funcionalidades de Fastest.
-%\end{itemize}    
+    \column{0.3\textwidth}
+      \scaledinput{0.3}{img/polyhedra}
+
+    \column{0.5\textwidth}
+      \begin{itemize}
+        \scriptsize
+        \setlength\itemsep{0.2cm}
+        \item<2-> Los \textit{semi-espacios} se representan mediante una inecuación lineal de la forma $a_1x_1 + a_2x_2 + \cdots + a_nx_n \geq b.$
+        \item<3-> Un poliedro convexo $\ph$ puede representarse como una intersección de un conjunto de $k$ hiper-espacios
+            \bnnequation
+                \ph = \{ x \in \mathbb{R}^n ~|~ A\cdot x + b \geq 0\}
+            \ennequation
+            donde  \mbox{$A \in \mathbb{R}^{k \times n}$} y \mbox{$b\in\mathbb{R}^{k}$}.
+      \end{itemize}
+
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Descubrimiento de procesos}{¡Juntemos todo!}
+  \begin{columns}
+    \column{0.6\textwidth}
+        \centering
+        \scaledinput{0.3}{discovery/walks}
+    \column{0.25\textwidth}
+        \scaledinput{0.9}{discovery/walks_net1}
+    \column{0.25\textwidth}
+        \scaledinput{0.9}{discovery/walks_net2}
+  \end{columns}
+\end{frame}
+
+\section{Desarrollo}
+
+\begin{frame}{Descubrimiento de procesos}{Simplificación}
+  \begin{minipage}[c][0.2\textheight][c]{\linewidth}
+  \begin{itemize}
+      \item<1-> Modelos excesivamente complicados y alejados de la realidad.
+      \item<1->Necesidad de simplificar. 
+  \end{itemize}
+  \end{minipage}
+\only<1>{
+  \begin{minipage}[c][0.2\textheight][c]{\linewidth}
+    $$\begin{array}{rcccccccl}
+        120 & + & 64 \cdot x_1 & + & 33  \cdot x_2 & + & -10 \cdot x_3 & \ge & 0 \\
+        -40 & + & 14 \cdot x_1 & - & 62 \cdot x_2 & + & 8   \cdot x_3 & \ge & 0 \\
+        -83 & + & 20 \cdot x_1 & + & 46  \cdot x_2 & + & 40  \cdot x_3 & \ge & 0 \\
+    \end{array}$$
+  \end{minipage}
+}
+\pause[2]
+  \begin{minipage}[c][0.2\textheight][c]{\linewidth}
+    $$\begin{array}{rcccccccl}
+        ??? & + & ??? \cdot x_1 & + & ??? \cdot x_2 & + & ??? \cdot x_3 & \ge & 0 \\
+        ??? & + & ??? \cdot x_1 & + & ??? \cdot x_2 & + & ??? \cdot x_3 & \ge & 0 \\
+        ??? & + & ??? \cdot x_1 & + & ??? \cdot x_2 & + & ??? \cdot x_3 & \ge & 0 \\
+    \end{array}$$
+  \end{minipage}
+  \begin{itemize}
+      \item<3-> Buscamos nuevos coeficientes para el sistema de inecuaciones: 
+        \begin{itemize}
+            \item Los nuevos coeficientes deben ser más ``simples''.
+            \item Cada solución del sistema original tiene que continuar siendo
+                una solución del nuevo sistema.
+        \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Descubrimiento de procesos}{Simplificación}
+\scriptsize
+  \begin{minipage}[c][0.3\textheight][c]{\linewidth}
+    Dado un modelo de la forma: 
+    $$\begin{array}{rcccccccl}
+        \alpha_{1,0} & + & \alpha_{1,1} \cdot x_1 & + & \dots & + & \alpha_{1,n} \cdot x_n & \ge & 0 \\
+        \alpha_{2,0} & + & \alpha_{2,1} \cdot x_1 & + & \dots & + & \alpha_{2,n} \cdot x_n & \ge & 0 \\
+            \ldots & & & & & & \ldots \\
+        \alpha_{m,0} & + & \alpha_{m,1} \cdot x_1 & + & \dots & + & \alpha_{m,n} \cdot x_n & \ge & 0
+    \end{array}$$
+  \end{minipage}
+
+\pause
+Se buscan nuevos coeficientes $\beta_{1,0},\beta_{1,1}, \dots, \beta_{m,n}$ tal que:
+
+\bequationl{enc2} \tag{MIN}
+    \rvert \beta_{i,j} \lvert\ \leq\ \rvert \alpha_{i,j} \lvert.
+\eequationl
+
+\bequationl{enc3}\tag{PC}
+    \bigwedge\limits_{i=1}^m (\alpha_{i,0} + \sum\limits_{j=1}^n \alpha_{i,j} \cdot x_j )\ge 0 \ \Rightarrow\ \bigwedge\limits_{i=1}^m (\beta_{i,0} + \sum\limits_{j=1}^n \beta_{i,j} \cdot x_j) \ge 0.
+\eequationl
+\pause
+  \begin{itemize}
+    \setlength\itemsep{0.2cm}
+    \item Para realizar el proceso de simplificación se utiliza \textit{SMT-Solver}.
+    \item SMT (\textit{Satisfability modulo theories}) es una teoría que permite
+        definir un sistema de restricciones y encontrar una solución.
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Descubrimiento de procesos}{}
+  \begin{columns}
+    \column{0.75\textwidth}
+      \begin{itemize}
+        \setlength\itemsep{0.2cm}
+        \item<1-> Finalmente conseguimos el modelo simplificado.
+        \item<3-> Simplificar agregó nuevos puntos y por lo tanto comportamientos potencialmente indeseados.
+        \item<5-> Si contamos con información negativa podemos mejorarlo.
+        \item<7-> La información negativa representa conocimiento experto sobre comportamiento 
+                  que el sistema no debe admitir.
+      \end{itemize}
+    \column{0.25\textwidth}
+        \only<2>{
+            \begin{figure}[h]
+              \centering
+              \includegraphics[width=0.8\linewidth]{img/homer-que-bien.jpg}
+              \caption*{¡Qué bien!}
+            \end{figure}
+        }
+        \only<4>{
+            \begin{figure}[h]
+              \centering
+              \includegraphics[width=0.8\linewidth]{img/chino-que-mal.jpg}
+              \caption*{¡Qué mal!}
+            \end{figure}
+        }
+        \only<6>{
+            \begin{figure}[h]
+            \centering
+              \includegraphics[width=0.8\linewidth]{img/homer-que-bien.jpg}
+              \caption*{¡Qué bien!}
+            \end{figure}
+        }
+        \only<8>{
+            \begin{figure}[h]
+            \centering
+              \includegraphics[width=0.8\linewidth]{img/homero-nada.jpg}
+              \caption*{$\ldots$}
+            \end{figure}
+        }
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Algoritmo de descubrimiento de procesos}{}
+  \vspace*{-0.4cm}
+    
+  \begin{algorithm}[H]
+  \scriptsize
+    \caption*{Algoritmo completo de descubrimiento y simplificación supervisado}
+    \begin{algorithmic}[1]
+        \Require trazas positivas $\pmlog^+$ y trazas negativas $\pmlog_-$
+        \Ensure una red de Petri $N$ donde $\forall \sigma \in \pmlog^+: \sigma \in L(N)$ y $\forall \sigma \in \pmlog_-: \sigma \not \in L(N)$
+        \vspace{0.7pt}
+        \Procedure{DISCOVER}{$\pmlog^+, \pmlog_-$}
+        \State $pp, np \leftarrow \emptyset$ \label{algo:line1}
+        \For{$\sigma_p \in \pmlog^+$}
+          \For{$\sigma$ prefix of $\sigma_p$}
+            \State add $\widehat\sigma$ to $pp$
+         \EndFor
+       \EndFor
+        \For{$\sigma_n \in \pmlog_-$}
+          \State add $\widehat\sigma_n$ to $np$
+        \EndFor \label{algo:line2}
+        \State $H$ = \textsc{ConvexHull}($pp$) \label{algo:lineqhull}
+        \State $H_{smt}$ = \textsc{ShiftRotate}($H, np$)
+        %\State $H'$ = \textsc{Removal}($H_{smt}, np$)
+        \State $N$ = \textsc{Hull2Net}($H'$)
+        \State \Return N
+        \EndProcedure
+    \end{algorithmic}
+    \label{algo}
+  \end{algorithm}
+\end{frame}
+
+\begin{frame}[fragile]{Descubrimiento de procesos}{\pachtool}
+  \begin{itemize}
+    \setlength\itemsep{0.2cm}
+    \item Desarrollo herramienta \pachtool en Python.
+    \item Diferentes parámetros de configuración.
+    \item Posibilita ser usada como herramienta de post procesamiento.
+    \item Código disponible en GitHub.
+  \end{itemize}
+\end{frame}
+
+\section{Resultados experimentales}
+
+\begin{frame}[fragile]{Resultados experimentales}{Sobre complejidad}
+  \scriptsize
+  \input{tables/complejidad}
+\end{frame}
+
+\begin{frame}[fragile]{Resultados experimentales}{Sobre precisión}
+  \scriptsize
+  \input{tables/precision}
+\end{frame}
+
+%\begin{frame}[fragile]{Resultados experimentales}{Sobre generalización}
+%  \scriptsize
+%  \input{tables/generalizacion}
 %\end{frame}
-%
-%\begin{frame}{Trabajo futuro}{}
-%Trabajos futuros:
-%\begin{itemize}
-%  \item Evaluación de textos generados por el sistema realizado (en términos de exactitud, fluidez, etc.).
-%
-%  \item Ampliar la totalidad de operadores aceptados por el sistema.
-%
-%  \item Profundizar el trabajo sobre los datos de entrada agregando más tareas de razonamiento con los datos.
-%
-%  \item Expandir el sistema para que sea capaz de producir descripciones en otros idiomas.
-%\end{itemize}                         
-%\end{frame}
-%                                
-\frame{\begin{center}
-\textbf{¿Preguntas?}
-\end{center}}
+
+\section{Conclusión y trabajos futuros}
+\begin{frame}{Conclusión}{}
+\begin{itemize}
+  \item Desarrollo de una herramienta que implementa minería de procesos de manera supervisada.
+
+  \item Uso de SMT-Solver como herramienta de simplificación.
+
+  \item La solución propuesta es independiente del algoritmo de descubrimiento.
+
+  \item Buenos resultados experimentales.
+\end{itemize}    
+\end{frame}
+
+\begin{frame}{Trabajo futuro}{}
+\begin{itemize}
+  \item Realizar pruebas con información negativa proporcionada por conocimiento experto.
+
+  \item Descomposición en subproblemas ante información negativa dentro del poliedro positivo.
+
+  \item Combinar con otras técnicas de simplificación.
+
+  \item Obtención de poliedro de manera eficiente mediante SMT-Solver.
+\end{itemize}                         
+\end{frame}
+
+                                
+\begin{frame}{¿Preguntas?}
+  \begin{center}
+    \only<1>{
+      \begin{figure}[h]
+        \centering
+        %\includegraphics[width=0.2\linewidth]{img/homero-preguntas.png}
+        %\caption*{¿Preguntas? ¿Preguntas? Todo mi plan se vendrá abajo}
+
+        \includegraphics[width=0.2\linewidth]{img/homero-simpsons-preguntas.png}
+        \caption*{¿Preguntas?}
+      \end{figure}
+    }
+%    \only<2>{
+%    \begin{figure}[h]
+%      \centering
+%      \includegraphics[width=0.2\linewidth]{img/homero-preguntas-adelante.png}
+%      \caption*{Es decir...adelante}
+%    \end{figure}
+%    }
+  \end{center}
+\end{frame}
 
 \frame{\begin{center}
-\textbf{¡Gracias!}
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.5\linewidth]{img/gracias.jpg}
+        \caption*{\textbf{¡Gracias!}}
+      \end{figure}
 \end{center}}
                
                                                                                       

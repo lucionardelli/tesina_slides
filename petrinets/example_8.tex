@@ -5,7 +5,7 @@
         circle,
         thick,
         draw=yellow!75,
-        fill=red!20,
+        fill=yellow!20,
         minimum size=6mm,
     },
     place/.style={
@@ -32,7 +32,7 @@
     transitionVgreen/.style={
         rectangle,
         thick,
-        fill=green!25,
+        fill=green!60,
         minimum height=8mm,
         inner xsep=2pt
     },
@@ -54,10 +54,10 @@
 
 
 \begin{tikzpicture}[node distance=0.5cm and 1cm,>=stealth',bend angle=45,auto]
-    \node [place,tokens=3,label=above:$P_1$] (p1) {};
+    \node [placeyellow,tokens=4,label=above:$P_1$] (p1) {};
     \node [transitionV,label=below:$T_1$] (t1) [right= of p1] {}
         edge[pre] node[swap]{\scriptsize 3}  (p1);
-    \node [place,tokens=1,label=above:$P_2$] (p2) [above right=of t1] {}
+    \node [place,tokens=0,label=above:$P_2$] (p2) [above right=of t1] {}
         edge[pre]   (t1);
     \node [place,tokens=2,label=above:$P_3$] (p3) [below right=of t1] {}
         edge[pre]   (t1);

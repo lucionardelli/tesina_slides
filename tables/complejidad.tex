@@ -1,0 +1,30 @@
+% !TEX spellcheck = es-AR
+
+\begin{table}[t]
+
+\setlength\tabcolsep{6pt}
+\centering
+\small
+\begin{tabular}{l r r r }
+\normalfont Benchmark
+& \normalfont Poliedro
+& \normalfont SMT Pos.
+& \normalfont SMT Neg.
+\\
+\midrule
+\newrow
+
+\bench[32]{A}  & 13129 & 10324 & 6489 \newrow
+\bench[42]{A}  & 7813 & 4209 & 5009 \newrow
+\bench{ConfDimB}  & 33 & 29 & 29 \newrow
+\bench[5]{Cycles} & 105 & 102 & 102 \newrow
+\bench{DocumentFlow} & 56 & 50 & 52 \newrow
+\bench{Incident} & 406 & 216 & 292 \newrow
+\bench{Receipt} & 588 & 412  & 462 \newrow
+\bench{Telecom} & 840 & 592 & 688 \newrow
+\\
+\bottomrule
+\end{tabular}
+\caption*{\captionsize Resultados de complejidad de los modelos obtenidos mediante \pachtool.}
+\label{tab:pol_simp}
+\end{table}

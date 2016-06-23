@@ -61,7 +61,7 @@
         edge[pre]   (t1);
     \node [place,tokens=2,label=above:$P_3$] (p3) [below right=of t1] {}
         edge[pre]   (t1);
-    \node [transitionVred,label=below:$T_2$] (t2) [above right=of p3] {}
+    \node [transitionV,label=below:$T_2$] (t2) [above right=of p3] {}
         edge[pre] node[swap]{\scriptsize 2} (p2)
         edge[pre]   (p3)
         edge[post,out=50,in=70,looseness=2,overlay]  node[swap]{\scriptsize 4} (p1);

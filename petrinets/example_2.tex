@@ -54,9 +54,9 @@
 
 
 \begin{tikzpicture}[node distance=0.5cm and 1cm,>=stealth',bend angle=45,auto]
-    \node [place,tokens=1,label=above:$P_1$] (p1) {};
+    \node [place,tokens=3,label=above:$P_1$] (p1) {};
     \node [transitionVdgreen,label=below:$T_1$] (t1) [right= of p1] {}
-        edge[pre]   (p1);
+        edge[pre] node[swap]{\scriptsize 3}  (p1);
     \node [place,tokens=1,label=above:$P_2$] (p2) [above right=of t1] {}
         edge[pre]   (t1);
     \node [place,tokens=2,label=above:$P_3$] (p3) [below right=of t1] {}
@@ -64,7 +64,7 @@
     \node [transitionVred,label=below:$T_2$] (t2) [above right=of p3] {}
         edge[pre] node[swap]{\scriptsize 2} (p2)
         edge[pre]   (p3)
-        edge[post,out=50,in=70,looseness=2,overlay]  (p1);
+        edge[post,out=50,in=70,looseness=2,overlay]  node[swap]{\scriptsize 4} (p1);
 \end{tikzpicture}
 
 

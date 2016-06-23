@@ -1,0 +1,30 @@
+% !TEX spellcheck = es-AR
+
+\begin{table}[t]
+
+\setlength\tabcolsep{6pt}
+\centering
+\small
+\begin{tabular}{l r r r }
+\normalfont Benchmark
+& \normalfont Poliedro
+& \normalfont SMT Pos.
+& \normalfont SMT Neg.
+\\
+\midrule
+\newrow
+
+\bench[32]{A}           & 0,16      & 0,15  & 0,15 \newrow
+\bench[42]{A}           & 0,11      & 0,10  & 0,12 \newrow
+\bench{ConfDimB}        & 0,87      & 0,41  & 0,87 \newrow
+\bench[5]{Cycles}       & 0,23      & 0,23  & 0,23 \newrow
+\bench{DocumentFlow}    & 0,04      & 0,04  & 0,04 \newrow
+\bench{Incident}        & 0,13      & 0,12  & 0,11 \newrow
+\bench{Receipt}         & 0,15      & 0,13  & 0,15 \newrow
+\bench{Telecom}         & 0,08      & 0,08  & 0,08 \newrow
+\\
+\bottomrule
+\end{tabular}
+\caption*{\captionsize Resultados de precisión de los modelos obtenidos mediante \pachtool.}
+\label{tab:pol_simp}
+\end{table}

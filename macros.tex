@@ -173,11 +173,13 @@
 % Begin equation no numbered
 \newcommand{\bnnequation}{\begin{equation*}}
 % Begin equation mode
-\newcommand{\bequation}{\begin{equation}}
+\newcommand{\bequation}{\begin{equation*}}
 % Begin equation mode with label
 \newcommand{\bequationl}[1]{\begin{equation}\label{eq:#1}}
 % End equation mode
-\newcommand{\eequation}{\end{equation}}
+\newcommand{\eequation}{\end{equation*}}
+% End labeled equation mode
+\newcommand{\eequationl}{\end{equation}}
 % End equation no numbered
 \newcommand{\ennequation}{\end{equation*}}
 
@@ -193,8 +195,10 @@
 % Scale input
 \newcommand{\scaledinput}[2]{\scalebox{#1}{\input{#2}}}
 
+
+\definecolor{mygreen}{rgb}{0,0.5,0}
 % Algoritmos en español
-%\floatname{algorithm}{Algoritmo}
+\floatname{algorithm}{Algoritmo}
 %\renewcommand{\listalgorithmname}{Lista de algoritmos}
-%\renewcommand{\algorithmicrequire}{\textbf{Entrada:}}
-%\renewcommand{\algorithmicensure}{\textbf{Salida:}}
+\renewcommand{\algorithmicrequire}{\textbf{Entrada:}}
+\renewcommand{\algorithmicensure}{\textbf{Salida:}}
