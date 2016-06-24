@@ -142,7 +142,7 @@
 }
 \author[Lucio Nardelli]{\begin{tabular}{r@{ }l} 
   Autor:      & Lucio Nardelli \\[1ex]
-  Director:   & Hernán Ponce de León\\
+  Director:   & Hernán ($\mathcal{Z}$eta) Ponce de León\\
   \end{tabular}}
 \date{Junio, 2016}
   
@@ -171,24 +171,21 @@
 \begin{frame}{Motivación}{Modelos formales}
   \vspace*{-0.5cm}
   \begin{minipage}[c][0.4\textheight][c]{\linewidth}
-    Utilizar un modelo gráfico, que sea de fácil de entender
-    pero formal para que se permita un análisis del sistema subyacente.
+    Utilizar un modelo gráfico, fácil de entender pero formal para que permitir su análisis.
   \end{minipage}
+  \pause 
   \begin{columns}
     \column{0.25\textwidth}
-  \pause 
       \begin{minipage}[c][0.3\textheight][c]{\linewidth}
         \centering
         \includegraphics[width=1.2\linewidth]{img/ejemplo1.png}
       \end{minipage}
     \column{0.45\textwidth}
-  \pause 
       \begin{minipage}[c][0.3\textheight][c]{\linewidth}
         \centering
         \includegraphics[width=1.2\linewidth]{img/ejemplo2.png}
       \end{minipage}
     \column{0.3\textwidth}
-  \pause 
       \begin{minipage}[c][0.05\textheight][c]{\linewidth}
         \centering
         \includegraphics[width=0.5\linewidth]{img/ejemplo3.png}
@@ -204,31 +201,23 @@
 \begin{frame}{Motivación}{Descubrimiento de procesos}
     \begin{itemize}
       \setlength\itemsep{0.4cm}
-      \item<2-> Para obtener el modelo recurrimos al \textit{descubrimiento de procesos}.
-      \item<3-> Es una técnica de aprendizaje automatizado.
-      \item<4-> Transforma un registro de acciones de un sistema en un modelo formal.
+      \item<1-> Para obtener el modelo recurrimos al \textit{descubrimiento de procesos}.
+      \item<2-> Es una técnica de aprendizaje automatizado.
+      \item<3-> Transforma un registro de acciones de un sistema en un modelo formal.
     \end{itemize}
     \tikzset{every shadow/.style={fill=none,shadow scale=0}}
     \smartdiagramset{border color=none,
       set color list={white!100!white,red!50!black,black!90!white,blue!50!green},
       back arrow disabled=true}
     \vspace*{0.5cm}
-    \pause[5]
-    \smartdiagram[flow diagram:horizontal]{Sistema,Info en crudo,ACME - Black Box, Modelo Formal}
-                
-                %los \textit{logs de eventos} de un sistema.
-%    \pause[4]
-%        Pero...¿qué es un log de eventos de un sistema?
-%    \begin{itemize}
-%      \item<5-> Un log de eventos consiste de un archivo donde se describe un conjunto de trazas de un sistema; 
-%          es decir se lleva registro ordenado de las acciones relevantes que ocurren durante la ejecución de un sistema.
-%    \end{itemize}
+    \pause[4]
+    \smartdiagram[flow diagram:horizontal]{Sistema,Info en bruto,ACME - Black Box, Modelo Formal}
 \end{frame}
 
-\begin{frame}{Motivación}{Minería de procesos gráficamente}
-  \centering
-  \includegraphics[width=0.95\linewidth]{img/pmcycle.png}
-\end{frame}
+%\begin{frame}{Motivación}{Minería de procesos gráficamente}
+%  \centering
+%  \includegraphics[width=0.95\linewidth]{img/pmcycle.png}
+%\end{frame}
 
 \begin{frame}{Motivación}{Mejora de modelos}
   \begin{itemize}
@@ -273,10 +262,9 @@
   \begin{itemize}
     \setlength\itemsep{0.4cm}
 
-    \item<1-> Obtener un modelo formal de manera automática a partir de los logs de eventos de un sistema.
+    \item<1-> Obtener un modelo formal a partir del registro de actividades.
     
-    \item<2-> Optimizar el modelo obtenido mediante técnicas de mejora de modelos para obtener un modelo que
-          resulte simple.
+    \item<2-> Simplificar el modelo.
     
     \item<3-> Automatizar los puntos anteriores.
 
@@ -306,15 +294,15 @@
 \begin{frame}{Redes de Petri}{Evolución de una red de Petri}
     \begin{itemize}
       \setlength\itemsep{0.2cm}
-      \item<2-> Los markings pueden definirse de manera incremental como
+      \item<1-> Los markings pueden definirse de manera incremental como
         \bnnequation
             M'(p) = M(p) - F(p,t) +  F(t,p).
         \ennequation
-      \item<3-> Más general, ante una sucesión de eventos:
+      \item<2-> Más general, ante una sucesión de eventos:
         \bnnequation
           M(p) = M_0(p) + \sum_{x_i}F(x_i,p)\cdot \widehat\sigma(x_i) - \sum_{y_i}F(p,y_i)\cdot\widehat\sigma(y_i).
         \ennequation
-      \item<4-> Utilizando notación matricial, puede definirse para todos los places de una red:
+      \item<3-> Utilizando notación matricial, puede definirse para todos los places de una red:
         \bnnequation
           M = M_0 + A \cdot \widehat\sigma.
         \ennequation
@@ -329,7 +317,6 @@
     \setlength\itemsep{0.2cm}
     \item El registro de ejecuciones es generado por el sistema en los \textit{logs de eventos}.
     \item La representación como puntos en el espacio corresponde al \textit{conjunto de vectores Parikh} del log.
-    %\item El modelo matemático corresponde a un poliedro convexo que contenga el conjunto de vectores Parikh.
   \end{itemize}
 \end{frame}
 
@@ -347,7 +334,7 @@
   \pause[3]
    \begin{example}
        Para las trazas $\sigma_1=t_1 \cdot t_2 \cdot t_1 \cdot t_2 \cdot t_1 \cdot t_1 \cdot t_3$ y $\sigma_2=t_4 \cdot t_4$,
-       sobre el alfabeto $T=\{t_1,t_2,t_3,t_4\}$ los vectores de Parikh de cada traza vienen dados por las tuplas $(4,1,1,0)$ y $(0,0,0,2)$ respectivamente.
+       sobre el alfabeto $T=\{t_1,t_2,t_3,t_4\}$ los vectores de Parikh de cada traza vienen dados por las tuplas $(4,2,1,0)$ y $(0,0,0,2)$ respectivamente.
    \end{example}
 
   \begin{columns}
@@ -394,13 +381,42 @@
 
 \begin{frame}{Descubrimiento de procesos}{¡Juntemos todo!}
   \begin{columns}
-    \column{0.6\textwidth}
+    \column{0.5\textwidth}
         \centering
         \scaledinput{0.3}{discovery/walks}
-    \column{0.25\textwidth}
+    \column{0.5\textwidth}
+        \pause[4]
+        \centering
         \scaledinput{0.9}{discovery/walks_net1}
-    \column{0.25\textwidth}
-        \scaledinput{0.9}{discovery/walks_net2}
+  \end{columns}
+  \begin{columns}
+    \column{0.5\textwidth}
+        \pause[2]
+      \tiny
+      \bnnequation
+        %\ph = \{ x \in \mathbb{R}^2_+ ~|~ x\in p_0 \cap p_1\}
+        \ph = \left\{
+           \left[\begin{array}{c} \widehat\sigma(x) \\ \widehat\sigma(y) \end{array} \right] 
+             ~|~ 
+             \begin{array}{c}
+              1 + \widehat\sigma(x) - \widehat\sigma(y) \geq 0
+              \\
+              6 -2 \cdot \widehat\sigma(x) + 3 \cdot \widehat\sigma(y) \geq 0
+            \end{array} 
+        \right\}
+      \ennequation
+    \column{0.5\textwidth}
+        \pause[3]
+  \tiny
+      \bequation
+       M = 
+          \left[\begin{array}{c} 1 \\ 6 \end{array} \right] +
+          \left[\begin{array}{rr} 1 & -1 \\ -2 & 3 \end{array} \right]
+          \cdot
+          \left[\begin{array}{c} \widehat\sigma(x) \\ \widehat\sigma(y) \end{array} \right]
+          \geq 
+          \left[\begin{array}{c} 0 \\ 0 \end{array} \right].
+      \eequation
   \end{columns}
 \end{frame}
 
@@ -409,14 +425,14 @@
 \begin{frame}{Descubrimiento de procesos}{Simplificación}
   \begin{minipage}[c][0.2\textheight][c]{\linewidth}
   \begin{itemize}
-      \item<1-> Modelos excesivamente complicados y alejados de la realidad.
-      \item<1->Necesidad de simplificar. 
+      \item<1-> Modelos excesivamente complicados.
+      \item<1-> Necesidad de simplificar. 
   \end{itemize}
   \end{minipage}
 \only<1>{
   \begin{minipage}[c][0.2\textheight][c]{\linewidth}
     $$\begin{array}{rcccccccl}
-        120 & + & 64 \cdot x_1 & + & 33  \cdot x_2 & + & -10 \cdot x_3 & \ge & 0 \\
+        120 & + & 64 \cdot x_1 & + & 33  \cdot x_2 & - & 10 \cdot x_3 & \ge & 0 \\
         -40 & + & 14 \cdot x_1 & - & 62 \cdot x_2 & + & 8   \cdot x_3 & \ge & 0 \\
         -83 & + & 20 \cdot x_1 & + & 46  \cdot x_2 & + & 40  \cdot x_3 & \ge & 0 \\
     \end{array}$$
@@ -433,8 +449,8 @@
   \begin{itemize}
       \item<3-> Buscamos nuevos coeficientes para el sistema de inecuaciones: 
         \begin{itemize}
-            \item Los nuevos coeficientes deben ser más ``simples''.
-            \item Cada solución del sistema original tiene que continuar siendo
+            \item \textbf{MIN}imización: Los nuevos coeficientes deben ser más ``simples''.
+            \item \textbf{P}reservación \textbf{T}razas: Cada solución del sistema original tiene que continuar siendo
                 una solución del nuevo sistema.
         \end{itemize}
   \end{itemize}
@@ -459,14 +475,14 @@ Se buscan nuevos coeficientes $\beta_{1,0},\beta_{1,1}, \dots, \beta_{m,n}$ tal 
     \rvert \beta_{i,j} \lvert\ \leq\ \rvert \alpha_{i,j} \lvert.
 \eequationl
 
-\bequationl{enc3}\tag{PC}
+\bequationl{enc3}\tag{PT}
     \bigwedge\limits_{i=1}^m (\alpha_{i,0} + \sum\limits_{j=1}^n \alpha_{i,j} \cdot x_j )\ge 0 \ \Rightarrow\ \bigwedge\limits_{i=1}^m (\beta_{i,0} + \sum\limits_{j=1}^n \beta_{i,j} \cdot x_j) \ge 0.
 \eequationl
 \pause
   \begin{itemize}
     \setlength\itemsep{0.2cm}
     \item Para realizar el proceso de simplificación se utiliza \textit{SMT-Solver}.
-    \item SMT (\textit{Satisfability modulo theories}) es una teoría que permite
+    \item Los SMT (\textit{Satisfability modulo theories}) permiten
         definir un sistema de restricciones y encontrar una solución.
   \end{itemize}
 
@@ -526,19 +542,12 @@ Se buscan nuevos coeficientes $\beta_{1,0},\beta_{1,1}, \dots, \beta_{m,n}$ tal 
         \Ensure una red de Petri $N$ donde $\forall \sigma \in \pmlog^+: \sigma \in L(N)$ y $\forall \sigma \in \pmlog_-: \sigma \not \in L(N)$
         \vspace{0.7pt}
         \Procedure{DISCOVER}{$\pmlog^+, \pmlog_-$}
-        \State $pp, np \leftarrow \emptyset$ \label{algo:line1}
-        \For{$\sigma_p \in \pmlog^+$}
-          \For{$\sigma$ prefix of $\sigma_p$}
-            \State add $\widehat\sigma$ to $pp$
-         \EndFor
-       \EndFor
-        \For{$\sigma_n \in \pmlog_-$}
-          \State add $\widehat\sigma_n$ to $np$
-        \EndFor \label{algo:line2}
+        \State $pp$ = \textsc{Parikh}($\pmlog^+$)
+        \State $np$ = \textsc{Parikh}($\pmlog_-$)
         \State $H$ = \textsc{ConvexHull}($pp$) \label{algo:lineqhull}
         \State $H_{smt}$ = \textsc{ShiftRotate}($H, np$)
         %\State $H'$ = \textsc{Removal}($H_{smt}, np$)
-        \State $N$ = \textsc{Hull2Net}($H'$)
+        \State $N$ = \textsc{Hull2Net}($H_{smt}$)
         \State \Return N
         \EndProcedure
     \end{algorithmic}
@@ -547,26 +556,30 @@ Se buscan nuevos coeficientes $\beta_{1,0},\beta_{1,1}, \dots, \beta_{m,n}$ tal 
 \end{frame}
 
 \begin{frame}[fragile]{Descubrimiento de procesos}{\pachtool}
-  \begin{itemize}
-    \setlength\itemsep{0.2cm}
-    \item Desarrollo herramienta \pachtool en Python.
-    \item Diferentes parámetros de configuración.
-    \item Posibilita ser usada como herramienta de post procesamiento.
-    \item Código disponible en GitHub.
-  \end{itemize}
+  \begin{columns}
+    \column{0.84\textwidth}
+        \begin{itemize}
+          \setlength\itemsep{0.2cm}
+          \item Desarrollo herramienta \pachtool en Python.
+          \item Diferentes parámetros de configuración.
+          \item Posibilita ser usada como herramienta de post procesamiento.
+          \item Código disponible en GitHub: \url{/lucionardelli/PacH}.
+        \end{itemize}
+    \column{0.2\textwidth}
+        \centering
+        \includegraphics[width=1.9\linewidth]{img/pach.png}
+  \end{columns}
 \end{frame}
 
-\section{Resultados experimentales}
-
-\begin{frame}[fragile]{Resultados experimentales}{Sobre complejidad}
+\begin{frame}[fragile]{\pachtool}{Resultados Experimentales}
   \scriptsize
   \input{tables/complejidad}
 \end{frame}
 
-\begin{frame}[fragile]{Resultados experimentales}{Sobre precisión}
-  \scriptsize
-  \input{tables/precision}
-\end{frame}
+%\begin{frame}[fragile]{Resultados experimentales}{Sobre precisión}
+%  \scriptsize
+%  \input{tables/precision}
+%\end{frame}
 
 %\begin{frame}[fragile]{Resultados experimentales}{Sobre generalización}
 %  \scriptsize
@@ -607,7 +620,7 @@ Se buscan nuevos coeficientes $\beta_{1,0},\beta_{1,1}, \dots, \beta_{m,n}$ tal 
         %\includegraphics[width=0.2\linewidth]{img/homero-preguntas.png}
         %\caption*{¿Preguntas? ¿Preguntas? Todo mi plan se vendrá abajo}
 
-        \includegraphics[width=0.2\linewidth]{img/homero-simpsons-preguntas.png}
+        \includegraphics[width=0.4\linewidth]{img/homero-preguntas.png}
         \caption*{¿Preguntas?}
       \end{figure}
     }
